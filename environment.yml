@@ -1,0 +1,14 @@
+
+name: slides-2023
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - gmp
+  - jemalloc
+  - nodejs
+  - openssl
+  - readline
+  - ruby=2.6.6
+  - gxx_linux-64
+  - pkg-config
