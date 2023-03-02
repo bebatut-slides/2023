@@ -19,14 +19,85 @@ Note:
 -
 
 ---
-### Assembly
+### Metagenomics assembly
 
+![](images/mags_building.png)
+
+---
+### 2 assembly approaches
+
+![](images/modes.png)
+
+---
+### The problem
+
+With Galaxy tools and multiple samples as inputs
+- Need to explicitely add the 2 modes
+- Only co-assembly implemented for many tools
+
+----
+### Example for [MetaSpades](https://github.com/galaxyproject/tools-iuc/blob/main/tools/spades/macros.xml)
+
+```
+#if $singlePaired.sPaired == "single"
+    #for $read in $file_paths1
+        --s $library '${read}'
+    #end for
+#else if  $singlePaired.sPaired == "paired"
+    #for $read in $fw_reads1
+        --${singlePaired.type_paired}-1 $library '${read}'
+    #end for
+    #for $read in $rv_reads1
+        --${singlePaired.type_paired}-2 $library '${read}'
+        --${singlePaired.type_paired}-or $library $singlePaired.orientation
+    #end for
+#else if $singlePaired.sPaired == "paired_interlaced"
+    #for $read in $file_paths1
+        --${singlePaired.type_paired}-12 $library '${read}'
+        --${singlePaired.type_paired}-or $library $singlePaired.orientation
+    #end for
+#else
+    #for $read in $fw_reads1
+        --${singlePaired.type_paired}-1 $library '${read}'
+    #end for
+    #for $read in $rv_reads1
+        --${singlePaired.type_paired}-2 $library '${read}'
+        --${singlePaired.type_paired}-or $library $singlePaired.orientation
+    #end for
+#end if
+```
+
+---
+### Trickier case - How it should work
+
+![](images/assembly_qc.png)
+
+----
+### Trickier case - Reality
+
+![](images/assembly_qc_paired_collections.png)
+
+----
+### Trickier case - Reality
+
+![](images/assembly_qc_2_collections.png)
+
+---
+### Current solution
+
+- Identify the cases when it happens
+- Modify XML tools of tools to add assembly mode
+- Remove the for loops in individual assembly mode
+- Tools
+    - [ ] MetaSpades
+    - [X] MEGAHIT
+    - [X] QUAST
+    - [X] CheckM
+    - [ ] CoverM
+    - [X] Semibin
+    - Many other tools!!
 
 
 ---
-### Thank You!
-
-![](images/eosclogo.png) <!-- .element width="40%" -->
-
----
+### Is there a better solution???
 
