@@ -1,5 +1,6 @@
 <!-- .slide: data-background="images/index.jpg" data-state="dim-background" -->
-## Galaxy collections and assembly tools
+## Galaxy collections and assembly
+## A nightmare for tool user interface
 
 <br>
 
